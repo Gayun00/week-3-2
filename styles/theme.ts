@@ -14,4 +14,5 @@ export const theme: DefaultTheme = {
     weightM: '500',
     weightS: '400',
   },
+  borderRadius: '30px',
 };

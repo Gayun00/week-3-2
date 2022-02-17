@@ -15,5 +15,6 @@ declare module 'styled-components' {
       weightM: string;
       weightS: string;
     };
+    borderRadius: string;
   }
 }

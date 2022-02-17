@@ -14,13 +14,27 @@ export const SearchResultListContainer = styled.div`
 `;
 
 export const SearchResultList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 400px;
   border: 1px solid gray;
+  overflow-y: scroll;
 `;
 
 export const SearchResultItem = styled.li`
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  padding: 10px;
+`;
+
+export const QuickButtonContainer = styled.div`
+  width: 300px;
+  overflow-x: scroll;
 `;
 
 export const QuickButton = styled.button`
+  background-color: ${({ theme }) => theme.color.backgroundGray};
+  border-radius: ${({ theme }) => theme.borderRadius};
   border: 1px solid gray;
+  font-size: ${({ theme }) => theme.font.sizeS};
 `;

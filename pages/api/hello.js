@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default (req, res) => {
+export const api = (req, res) => {
   res.status(200).json({
     data: {
       '6년근고려홍삼정스틱': {
@@ -1680,3 +1680,5 @@ export default (req, res) => {
     },
   });
 };
+
+export default api;

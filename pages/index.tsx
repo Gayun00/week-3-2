@@ -28,10 +28,10 @@ export default function Home({ data }) {
     const filteredProducts = productNameList.filter((product) => {
       return regex.exec(product);
     });
+
     const filteredbrands = brandNameList.filter((product) => {
       return product[BRAND] && regex.exec(product[BRAND]);
     });
-
     const uniqueBrands = [];
     filteredbrands.forEach((brand) => {
       if (!uniqueBrands.includes(brand[BRAND])) {
@@ -39,19 +39,11 @@ export default function Home({ data }) {
       }
     });
 
-    if (isWritten) {
-      setSearchList({
-        ...searchList,
-        products: [...filteredProducts],
-        brands: [...uniqueBrands],
-      });
-    } else {
-      setSearchList({
-        ...searchList,
-        products: [],
-        brands: [],
-      });
-    }
+    setSearchList({
+      ...searchList,
+      products: [...filteredProducts],
+      brands: [...uniqueBrands],
+    });
   };
 
   const handleDebounce = (callback, delay) => {

@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: aliceblue; */
 `;
 
 export const SearchInput = styled.input`
@@ -19,10 +18,12 @@ export const SearchInput = styled.input`
 
 export const SearchResultListContainer = styled.div`
   padding: 10px;
-  /* border: 1px solid gray; */
 `;
 
 export const QuickButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 10px;
   padding: 0 5px 0 5px;
   width: 350px;
@@ -46,21 +47,16 @@ export const QuickButton = styled.button`
 `;
 
 export const SearchResultList = styled.ul`
-  /* display: flex; */
   flex-direction: column;
   align-items: flex-start;
   margin-top: 10px;
   height: 400px;
-  /* border: 1px solid gray; */
   overflow-y: scroll;
 `;
 
 export const SearchResultItem = styled.li`
-  /* border: 1px solid gray; */
-  height: 40px;
-  margin-bottom: 10px;
-  /* background-color: yellow; */
+  display: flex;
+  align-items: center;
+  height: 50px;
   border-bottom: 1px solid #cccccc;
-
-  /* border-bottom: 1px solid ${({ theme }) => theme.color.borderGray}; */
 `;

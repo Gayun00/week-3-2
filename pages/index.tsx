@@ -48,7 +48,9 @@ export default function Home({ data }) {
               searchList.brands.map(
                 (searchResult, idx) =>
                   searchResult && (
-                    <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
+                    <S.QuickButton key={idx}>
+                      <p>{searchResult}</p>
+                    </S.QuickButton>
                   ),
               )
             ) : (

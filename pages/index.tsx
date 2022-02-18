@@ -5,6 +5,7 @@ import * as S from '../styles/home/styled';
 
 export default function Home({ data }) {
   const BRAND = '브랜드';
+
   const productNameList = Object.keys(data);
   const brandNameList = Object.values(data);
   const [searchList, setSearchList] = useState({
@@ -43,18 +44,26 @@ export default function Home({ data }) {
       <S.SearchResultListContainer>
         <S.QuickButtonWrapper>
           <S.QuickButtonContainer>
-            {searchList.brands.map(
-              (searchResult, idx) =>
-                searchResult && (
-                  <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
-                ),
+            {searchList.brands.length ? (
+              searchList.brands.map(
+                (searchResult, idx) =>
+                  searchResult && (
+                    <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
+                  ),
+              )
+            ) : (
+              <S.QuickButton>브랜드 검색 결과 없음</S.QuickButton>
             )}
           </S.QuickButtonContainer>
         </S.QuickButtonWrapper>
         <S.SearchResultList>
-          {searchList.products.map((searchResult, idx) => (
-            <S.SearchResultItem key={idx}>{searchResult}</S.SearchResultItem>
-          ))}
+          {searchList.products.length ? (
+            searchList.products.map((searchResult, idx) => (
+              <S.SearchResultItem key={idx}>{searchResult}</S.SearchResultItem>
+            ))
+          ) : (
+            <p>제품 검색 결과 없음</p>
+          )}
         </S.SearchResultList>
       </S.SearchResultListContainer>
     </S.Wrapper>

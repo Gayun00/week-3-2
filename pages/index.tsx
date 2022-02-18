@@ -4,25 +4,49 @@ import React, { useState } from 'react';
 import * as S from '../styles/home/styled';
 
 export default function Home({ data }) {
-  const [searchResults, setSearchResults] = useState(data);
-  console.log(Object.entries(searchResults));
+  const BRAND = '브랜드';
+  const productNameList = Object.keys(data);
+  const brandNameList = Object.values(data);
+  const [searchList, setSearchList] = useState([]);
+  const [buttonList, setButtonList] = useState([]);
+
+  function onChange(e) {
+    const inputVal = e.target.value;
+    const regex = new RegExp(inputVal, 'gi');
+
+    const filteredProducts = productNameList.filter((product) => {
+      return regex.exec(product);
+    });
+    const filteredbrands = brandNameList.filter((product) => {
+      return product[BRAND] && regex.exec(product[BRAND]);
+    });
+
+    const uniqueBrands = [];
+    filteredbrands.forEach((brand) => {
+      if (!uniqueBrands.includes(brand[BRAND])) {
+        uniqueBrands.push(brand[BRAND]);
+      }
+    });
+
+    setButtonList(uniqueBrands);
+    setSearchList(filteredProducts);
+  }
+
   return (
     <S.Wrapper>
-      <S.SearchInput />
+      <S.SearchInput onChange={onChange} />
       <S.SearchResultListContainer>
         <S.SearchResultList>
-          {Object.keys(searchResults).map((searchResult, idx) => (
+          {searchList.map((searchResult, idx) => (
             <S.SearchResultItem key={idx}>{searchResult}</S.SearchResultItem>
           ))}
         </S.SearchResultList>
 
         <S.QuickButtonContainer>
-          {Object.values(searchResults).map(
+          {buttonList.map(
             (searchResult, idx) =>
-              searchResult['브랜드'] && (
-                <S.QuickButton key={idx}>
-                  {searchResult['브랜드']}
-                </S.QuickButton>
+              searchResult && (
+                <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
               ),
           )}
         </S.QuickButtonContainer>

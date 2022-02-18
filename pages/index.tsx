@@ -7,8 +7,10 @@ export default function Home({ data }) {
   const BRAND = '브랜드';
   const productNameList = Object.keys(data);
   const brandNameList = Object.values(data);
-  const [searchList, setSearchList] = useState([]);
-  const [buttonList, setButtonList] = useState([]);
+  const [searchList, setSearchList] = useState({
+    products: [],
+    brands: [],
+  });
 
   function onChange(e) {
     const inputVal = e.target.value;
@@ -28,28 +30,32 @@ export default function Home({ data }) {
       }
     });
 
-    setButtonList(uniqueBrands);
-    setSearchList(filteredProducts);
+    setSearchList({
+      ...searchList,
+      products: [...filteredProducts],
+      brands: [...uniqueBrands],
+    });
   }
 
   return (
     <S.Wrapper>
       <S.SearchInput onChange={onChange} />
       <S.SearchResultListContainer>
+        <S.QuickButtonWrapper>
+          <S.QuickButtonContainer>
+            {searchList.brands.map(
+              (searchResult, idx) =>
+                searchResult && (
+                  <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
+                ),
+            )}
+          </S.QuickButtonContainer>
+        </S.QuickButtonWrapper>
         <S.SearchResultList>
-          {searchList.map((searchResult, idx) => (
+          {searchList.products.map((searchResult, idx) => (
             <S.SearchResultItem key={idx}>{searchResult}</S.SearchResultItem>
           ))}
         </S.SearchResultList>
-
-        <S.QuickButtonContainer>
-          {buttonList.map(
-            (searchResult, idx) =>
-              searchResult && (
-                <S.QuickButton key={idx}>{searchResult}</S.QuickButton>
-              ),
-          )}
-        </S.QuickButtonContainer>
       </S.SearchResultListContainer>
     </S.Wrapper>
   );

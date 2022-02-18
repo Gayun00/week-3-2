@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as S from '../styles/home/styled';
 
 export default function Home({ data }) {
@@ -15,10 +15,13 @@ export default function Home({ data }) {
     brands: [],
   });
 
-  function onInputChange(e) {
-    const inputVal = e.target.value;
-    handleDebounce(searchProducts(inputVal), 500);
-  }
+  const onInputChange = useCallback(
+    (e) => {
+      const inputVal = e.target.value;
+      handleDebounce(searchProducts(inputVal), 500);
+    },
+    [searchList],
+  );
 
   const searchProducts = (input) => {
     const regex = new RegExp(input, 'gi');

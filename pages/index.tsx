@@ -8,14 +8,22 @@ export default function Home({ data }) {
 
   const productNameList = Object.keys(data);
   const brandNameList = Object.values(data);
+
+  const [isWritten, setIsWritten] = useState(false);
   const [searchList, setSearchList] = useState({
     products: [],
     brands: [],
   });
 
-  function onChange(e) {
+  function onInputChange(e) {
     const inputVal = e.target.value;
-    const regex = new RegExp(inputVal, 'gi');
+    handleDebounce(searchProducts(inputVal), 500);
+  }
+
+  const searchProducts = (input) => {
+    const regex = new RegExp(input, 'gi');
+
+    input ? setIsWritten(true) : setIsWritten(false);
 
     const filteredProducts = productNameList.filter((product) => {
       return regex.exec(product);
@@ -31,43 +39,65 @@ export default function Home({ data }) {
       }
     });
 
-    setSearchList({
-      ...searchList,
-      products: [...filteredProducts],
-      brands: [...uniqueBrands],
-    });
-  }
+    if (isWritten) {
+      setSearchList({
+        ...searchList,
+        products: [...filteredProducts],
+        brands: [...uniqueBrands],
+      });
+    } else {
+      setSearchList({
+        ...searchList,
+        products: [],
+        brands: [],
+      });
+    }
+  };
+
+  const handleDebounce = (callback, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => callback(...args), delay);
+    };
+  };
 
   return (
     <S.Wrapper>
-      <S.SearchInput onChange={onChange} />
-      <S.SearchResultListContainer>
-        <S.QuickButtonWrapper>
-          <S.QuickButtonContainer>
-            {searchList.brands.length ? (
-              searchList.brands.map(
-                (searchResult, idx) =>
-                  searchResult && (
-                    <S.QuickButton key={idx}>
-                      <p>{searchResult}</p>
-                    </S.QuickButton>
-                  ),
-              )
+      <S.SearchInput onChange={onInputChange} />
+      {isWritten ? (
+        <S.SearchResultListContainer>
+          <S.QuickButtonWrapper>
+            <S.QuickButtonContainer>
+              {searchList.brands.length ? (
+                searchList.brands.map(
+                  (searchResult, idx) =>
+                    searchResult && (
+                      <S.QuickButton key={idx}>
+                        <p>{searchResult}</p>
+                      </S.QuickButton>
+                    ),
+                )
+              ) : (
+                <S.QuickButton>브랜드 검색 결과 없음</S.QuickButton>
+              )}
+            </S.QuickButtonContainer>
+          </S.QuickButtonWrapper>
+          <S.SearchResultList>
+            {searchList.products.length ? (
+              searchList.products.map((searchResult, idx) => (
+                <S.SearchResultItem key={idx}>
+                  {searchResult}
+                </S.SearchResultItem>
+              ))
             ) : (
-              <S.QuickButton>브랜드 검색 결과 없음</S.QuickButton>
+              <p>제품 검색 결과 없음</p>
             )}
-          </S.QuickButtonContainer>
-        </S.QuickButtonWrapper>
-        <S.SearchResultList>
-          {searchList.products.length ? (
-            searchList.products.map((searchResult, idx) => (
-              <S.SearchResultItem key={idx}>{searchResult}</S.SearchResultItem>
-            ))
-          ) : (
-            <p>제품 검색 결과 없음</p>
-          )}
-        </S.SearchResultList>
-      </S.SearchResultListContainer>
+          </S.SearchResultList>
+        </S.SearchResultListContainer>
+      ) : (
+        ''
+      )}
     </S.Wrapper>
   );
 }
